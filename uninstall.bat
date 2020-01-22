@@ -2,6 +2,8 @@
 helm uninstall order-command-ms -n shipping
 helm uninstall order-query-ms -n shipping
 helm uninstall spring-container-ms -n shipping
+helm uninstall voyages-ms -n shipping
+helm uninstall fleet-ms -n shipping
 
 :: Remove Kafka topics
 kubectl delete -f topics.yaml
