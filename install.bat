@@ -21,3 +21,4 @@ helm repo add stable https://kubernetes-charts.storage.googleapis.com
 helm install postgresql stable/postgresql -n postgres --wait --timeout=300s --set postgresqlPassword=supersecret --set persistence.enabled=false --set serviceAccount.enabled=true --set serviceAccount.name=pgserviceaccount
 
 call install-app.bat
+call run-integration-tests.bat
