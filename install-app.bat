@@ -41,11 +41,18 @@ helm install fleet-ms ../refarch-kc-ms/fleet-ms/chart/fleetms --set image.reposi
 helm install kc-ui ../refarch-kc-ui/chart/kc-ui --set image.repository=ibmcase/kcontainer-ui -n shipping --set eventstreams.enabled=false --set serviceAccountName=kcserviceaccount
 
 :: Wait for all services to start
-kubectl wait -n shipping --for=condition=available service springcontainerms-service
-kubectl wait -n shipping --for=condition=available service fleetms-service
-kubectl wait -n shipping --for=condition=available service kc-ui-service
-kubectl wait -n shipping --for=condition=available service ordercommandms-service
-kubectl wait -n shipping --for=condition=available service orderqueryms-service
-kubectl wait -n shipping --for=condition=available service voyagesms-service
+::kubectl wait -n shipping --for=condition=ready pod -l app=springcontainerms-selector
+::kubectl wait -n shipping --for=condition=ready pod -l app=fleetms-selector
+::kubectl wait -n shipping --for=condition=ready pod -l app=kc-ui-selector
+::kubectl wait -n shipping --for=condition=ready pod -l app=ordercommandms-selector
+::kubectl wait -n shipping --for=condition=ready pod -l app=orderqueryms-selector
+::kubectl wait -n shipping --for=condition=ready pod -l app=voyagesms-selector
+
+kubectl rollout status -n shipping deployment springcontainerms-deployment
+kubectl rollout status -n shipping deployment fleetms-deployment
+kubectl rollout status -n shipping deployment kc-ui-deployment
+kubectl rollout status -n shipping deployment ordercommandms-deployment
+kubectl rollout status -n shipping deployment orderqueryms-deployment
+kubectl rollout status -n shipping deployment voyagesms-deployment
 
 :: call postinstall.bat
