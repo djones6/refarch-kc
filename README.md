@@ -2,7 +2,7 @@
 
 The IBM Event Driven architecture reference implementation solution illustrates the deployment of real time analytics on event streams in the context of container shipment in an [event driven architecture](https://ibm-cloud-architecture.github.io/refarch-eda) with event backbone, functions as service and evnt-driven microservices, and aims to illustrate the different event driven patterns like event sourcing, CQRS and Saga. There is a lot of content, so consider this to be a living book, for better reading experience go to [the book view.](http://ibm-cloud-architecture.github.io/refarch-kc)
 
-## TL;TR
+## TL;DR
 
 If you want to just get the code, build and run we propose running locally with Minikube or Docker-compose. 
 
@@ -25,6 +25,33 @@ cd refarch
 
 For docker-compose we recommend reading [this note](http://ibm-cloud-architecture.github.io/refarch-kc/deployments/local/) for Minikube [this separate note](http://ibm-cloud-architecture.github.io/refarch-kc/deployments/minikube/)
 
+### Running in a local Kubernetes environment
+
+The following scripts will deploy the application components and backing services to an arbitrary k8s cluster, which could be a local one such as Docker Desktop, Minikube etc.  This will install into your cluster:
+- A `strimzi` namespace, containing the Strimzi Operator, installed using the Strimzi helm chart.
+- A `kafka` namespace, containing a Kafka cluster provisioned by Strimzi.
+- A `postgres` namespace, containing a Postgres instance managed by the Bitnami Postgres helm chart.
+- A `shipping` namespace, containing the application microservices, and secrets to provide access to the backing services. Each service is installed using its respective helm chart.
+
+Prereqs:
+- Ensure you have run the `./scripts/clone.sh` script.
+- Helm is required. Helm v3 is recommended.
+
+TODO: Update once scripts are in a tidier place
+
+TODO: Remove hard-coded references to published images in scripts
+
+1. Install the backing services: run `./install-infra.sh`
+1. Install the application components: run `./install-app.sh`
+1. Run the integration tests to verify your deployment: run `./run-integration-tests.sh`
+
+The integration tests are run as a Kubernetes job inside the cluster.
+
+#### Reinstalling / uninstalling
+
+To reinstall the application, run `./uninstall-app.sh` and then `./install-app.sh`. This will also delete and recreate the Kafka topics for the application.
+
+To uninstall everything, run the `./uninstall.sh` script. This will remove everything that was installed, including the four namespaces `shipping`, `postgres`, `kafka` and `strimzi`.
 
 ### Building this booklet locally
 
