@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kafka-brokers
-  namespace: shipping
-data:
-  brokers: my-cluster-kafka-bootstrap.kafka.svc
