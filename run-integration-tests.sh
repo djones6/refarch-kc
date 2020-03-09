@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # Deploy integration tests job
-kubectl apply -f itg-tests/es-it/ReeferItgTests.yaml -n shipping
+sed -e's#value: "IBMCLOUD#value: "LOCAL#' -e's#value: "itg-#value: "#' itg-tests/es-it/ReeferItgTests.yaml > itg-tests/es-it/ReeferItgTests.yaml.local
+kubectl apply -f itg-tests/es-it/ReeferItgTests.yaml.local -n shipping
 
 # Wait for job pod to be ready (ie. job has started running)
 # This will take seconds, unless the image needs pulling from a remote registry.
