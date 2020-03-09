@@ -12,10 +12,12 @@ kubectl create secret generic postgresql-pwd --from-literal=binding="supersecret
 :: Create a configmap to allow microservices to find Kafka
 :: This uses port 9092 (without TLS)
 kubectl create configmap kafka-brokers --from-literal=brokers="my-cluster-kafka-bootstrap.kafka.svc:9092" -n shipping
-:: or: kubectl apply -f kafka-brokers.yaml
 
-:: Create Kafka topics
-kubectl apply -f topics.yaml
+:: Create configmap to configure microservices with topic names
+kubectl apply -f kafka-topics-configmap.yaml -n shipping
+
+:: Create Kafka topics using Strimzi CRs
+kubectl apply -f topics.yaml -n kafka
 
 :: TODO - make sure other repos are cloned
 
