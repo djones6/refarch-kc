@@ -1,6 +1,9 @@
+@ECHO OFF
+SET SCRIPTLOC=%~dp0
+
 :: Deploy integration tests job
-sed -e's#value: "IBMCLOUD#value: "LOCAL#' -e's#value: "itg-#value: "#' itg-tests/es-it/ReeferItgTests.yaml > itg-tests/es-it/ReeferItgTests.yaml.local
-kubectl apply -f itg-tests/es-it/ReeferItgTests.yaml.local -n shipping
+sed -e's#value: "IBMCLOUD#value: "LOCAL#' -e's#value: "itg-#value: "#' %SCRIPTLOC%\..\..\itg-tests\es-it\ReeferItgTests.yaml > %SCRIPTLOC%\..\..\itg-tests\es-it\ReeferItgTests.yaml.local
+kubectl apply -f %SCRIPTLOC%\..\..\itg-tests\es-it\ReeferItgTests.yaml.local -n shipping
 
 :: Wait for job pod to be ready (ie. job has started running)
 :: This will take seconds, unless the image needs pulling from a remote registry.
