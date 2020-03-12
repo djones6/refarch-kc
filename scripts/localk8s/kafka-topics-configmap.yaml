@@ -8,9 +8,10 @@ data:
   bluewaterProblemTopic: bluewater-problem
   bluewaterShipTopic: bluewater-ship
   containersTopic: containers
+  containerAnomalyRetryTopic: container-anomaly-retry
+  containerAnomalyDeadTopic: container-anomaly-dead
   errorsTopic: errors
   orderCommandsTopic: order-commands
   ordersTopic: orders
   reeferTelemetryTopic: reefer-telemetry
   rejectedOrdersTopic: rejected-orders
-EOF
