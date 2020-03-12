@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+SCRIPTLOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-./uninstall-app.sh
+$SCRIPTLOC/uninstall-app.sh
 
 # Uninstall Postgres Helm chart
 helm uninstall postgresql -n postgres
@@ -12,7 +13,7 @@ kubectl delete serviceaccount -n postgres pgserviceaccount
 kubectl delete ns postgres
 
 # Delete Kafka cluster
-kubectl delete -f kafka-strimzi.yml -n kafka
+kubectl delete -f $SCRIPTLOC/kafka-strimzi.yml -n kafka
 
 # Uninstall Strimzi Helm chart
 helm uninstall strimzi -n strimzi

@@ -1,3 +1,6 @@
+@ECHO OFF
+SET SCRIPTLOC=%~dp0
+
 :: Uninstall microservices
 helm uninstall kc-ui -n shipping
 helm uninstall order-command-ms -n shipping
@@ -7,7 +10,7 @@ helm uninstall voyages-ms -n shipping
 helm uninstall fleet-ms -n shipping
 
 :: Remove Kafka topics
-kubectl delete -f topics.yaml
+kubectl delete -f %SCRIPTLOC%\topics.yaml
 
 :: Delete Postgres secrets
 kubectl delete secret postgresql-url -n shipping

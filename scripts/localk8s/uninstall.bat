@@ -1,4 +1,7 @@
-call uninstall-app.bat
+@ECHO OFF
+SET SCRIPTLOC=%~dp0
+
+call %SCRIPTLOC%\uninstall-app.bat
 
 :: Uninstall Postgres Helm chart
 helm uninstall postgresql -n postgres
@@ -10,7 +13,7 @@ kubectl delete serviceaccount -n postgres pgserviceaccount
 kubectl delete ns postgres
 
 :: Delete Kafka cluster
-kubectl delete -f kafka-strimzi.yml -n kafka
+kubectl delete -f %SCRIPTLOC%\kafka-strimzi.yml -n kafka
 
 :: Uninstall Strimzi Helm chart
 helm uninstall strimzi -n strimzi

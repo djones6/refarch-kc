@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+SCRIPTLOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Create namespaces for Strimzi and Kafka
 kubectl create ns strimzi
@@ -9,7 +10,7 @@ helm repo add strimzi https://strimzi.io/charts
 helm install strimzi strimzi/strimzi-kafka-operator -n strimzi --set watchNamespaces={kafka} --wait --timeout 300s
 
 # Install Strimzi custom resource to create cluster
-kubectl apply -f kafka-strimzi.yml -n kafka
+kubectl apply -f $SCRIPTLOC/kafka-strimzi.yml -n kafka
 
 # Create namespace for Postgres
 kubectl create ns postgres
