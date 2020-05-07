@@ -1,11 +1,17 @@
 @ECHO OFF
 SET SCRIPTLOC=%~dp0
 
+:: REPOBASE defines parent directory of the refarch-kc repo. If this script
+:: is moved, this path should be updated accordingly.
+SET REPOBASE=%SCRIPTLOC%\..\..\..
+
 :: Uninstall microservices
 helm uninstall kc-ui -n shipping
 helm uninstall order-command-ms -n shipping
 helm uninstall order-query-ms -n shipping
-helm uninstall spring-container-ms -n shipping
+::helm uninstall spring-container-ms -n shipping
+kubectl delete -f %REPOBASE%\appsody-container-ms\app-deploy.yaml -n shipping
+
 helm uninstall voyages-ms -n shipping
 helm uninstall fleet-ms -n shipping
 

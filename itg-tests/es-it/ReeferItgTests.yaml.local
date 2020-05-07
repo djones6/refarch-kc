@@ -158,7 +158,7 @@ spec:
               optional: true
         # Based on this parameter we add the appropriate certificates for when Event Streams is hosted either on ICP or OCP
         - name: KAFKA_ENV
-          value: "IBMCLOUD"
+          value: "LOCAL"
         # Order command microservice's service name
         - name: ORDER_CMD_MS
           value: "ordercommandms-service:9080"

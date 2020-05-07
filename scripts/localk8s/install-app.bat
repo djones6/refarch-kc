@@ -37,7 +37,8 @@ kubectl create secret generic bpm-anomaly --from-file=%SCRIPTLOC%\bpm-username.t
 
 :: Create a configmap to allow microservices to find Kafka
 :: This uses port 9092 (without TLS)
-kubectl create configmap kafka-brokers --from-literal=brokers="my-cluster-kafka-bootstrap.kafka.svc:9092" -n shipping
+::kubectl create configmap kafka-brokers --from-literal=brokers="my-cluster-kafka-bootstrap.kafka.svc:9092" -n shipping
+kubectl create configmap kafka-brokers --from-literal=brokers="broker-3-qnprtqnp7hnkssdz.kafka.svc01.us-east.eventstreams.cloud.ibm.com:9093,broker-0-qnprtqnp7hnkssdz.kafka.svc01.us-east.eventstreams.cloud.ibm.com:9093,broker-1-qnprtqnp7hnkssdz.kafka.svc01.us-east.eventstreams.cloud.ibm.com:9093,broker-2-qnprtqnp7hnkssdz.kafka.svc01.us-east.eventstreams.cloud.ibm.com:9093,broker-4-qnprtqnp7hnkssdz.kafka.svc01.us-east.eventstreams.cloud.ibm.com:9093,broker-5-qnprtqnp7hnkssdz.kafka.svc01.us-east.eventstreams.cloud.ibm.com:9093" -n shipping
 
 :: Create configmap to configure microservices with topic names
 kubectl apply -f %SCRIPTLOC%\kafka-topics-configmap.yaml -n shipping
@@ -55,7 +56,10 @@ helm install order-query-ms %REPOBASE%\refarch-kc-order-ms/order-query-ms/chart/
 
 :: Install spring-container-ms using pre-built image
 :: note: uses postgres secrets defined above
-helm install spring-container-ms %REPOBASE%\refarch-kc-container-ms/SpringContainerMS/chart/springcontainerms -n shipping --set image.repository=ibmcase/kcontainer-spring-container-ms --set eventstreams.enabled=false --set eventstreams.truststoreRequired=false --set serviceAccountName=kcserviceaccount
+::helm install spring-container-ms %REPOBASE%\refarch-kc-container-ms/SpringContainerMS/chart/springcontainerms -n shipping --set image.repository=ibmcase/kcontainer-spring-container-ms --set eventstreams.enabled=false --set eventstreams.truststoreRequired=false --set serviceAccountName=kcserviceaccount
+
+:: Install appsody version of spring-container-ms
+kubectl apply -f %REPOBASE%\appsody-container-ms\app-deploy.yaml -n shipping
 
 :: Install voyages-ms using pre-built image
 helm install voyages-ms %REPOBASE%\refarch-kc-ms/voyages-ms/chart/voyagesms --set image.repository=ibmcase/kcontainer-voyages-ms -n shipping --set eventstreams.enabled=false --set serviceAccountName=kcserviceaccount
@@ -67,7 +71,8 @@ helm install fleet-ms %REPOBASE%\refarch-kc-ms/fleet-ms/chart/fleetms --set imag
 helm install kc-ui %REPOBASE%\refarch-kc-ui/chart/kc-ui --set image.repository=ibmcase/kcontainer-ui -n shipping --set eventstreams.enabled=false --set serviceAccountName=kcserviceaccount
 
 :: Wait for all services to start
-kubectl rollout status -n shipping deployment springcontainerms-deployment
+::kubectl rollout status -n shipping deployment springcontainerms-deployment
+kubectl rollout status -n shipping deployment spring-container-ms
 kubectl rollout status -n shipping deployment fleetms-deployment
 kubectl rollout status -n shipping deployment kc-ui-deployment
 kubectl rollout status -n shipping deployment ordercommandms-deployment

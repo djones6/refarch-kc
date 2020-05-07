@@ -19,7 +19,8 @@ kubectl scale deployment --replicas=0 -n shipping --all
 kubectl scale deployment --replicas=1 -n shipping --all
 
 :: Wait for services to restart
-kubectl rollout status -n shipping deployment springcontainerms-deployment
+::kubectl rollout status -n shipping deployment springcontainerms-deployment
+kubectl rollout status -n shipping deployment spring-container-ms
 kubectl rollout status -n shipping deployment fleetms-deployment
 kubectl rollout status -n shipping deployment kc-ui-deployment
 kubectl rollout status -n shipping deployment ordercommandms-deployment
@@ -51,7 +52,8 @@ kubectl scale deployment --replicas=0 -n shipping --all
 kubectl scale deployment --replicas=1 -n shipping --all
 
 :: Wait for services to restart
-kubectl rollout status -n shipping deployment springcontainerms-deployment
+::kubectl rollout status -n shipping deployment springcontainerms-deployment
+kubectl rollout status -n shipping deployment spring-container-ms
 kubectl rollout status -n shipping deployment fleetms-deployment
 kubectl rollout status -n shipping deployment kc-ui-deployment
 kubectl rollout status -n shipping deployment ordercommandms-deployment
